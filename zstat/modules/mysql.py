@@ -1,6 +1,8 @@
 # coding=utf-8
+import sys
 import MySQLdb
 from zstat.settings import config
+
 
 mysql_config_opts = config.get("mysql", {})
 USER = mysql_config_opts.get("user", "root")
@@ -24,4 +26,12 @@ def _get_mysql_variable(variable_name):
 
 
 def process(key, *args):
-    pass
+    function_name = key.replace(".", "_")
+    available_functioons = sys.modules[__name__].__dict__
+    if function_name not in available_functioons:
+        return None
+    return available_functioons[function_name](*args)
+
+
+def mysql_connections(*args):
+    return _get_mysql_variable("Threads_connected")

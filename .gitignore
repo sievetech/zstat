@@ -1,0 +1,44 @@
+*.pyc
+*.swp
+*~
+cscope*
+*.pyo
+_build
+.coverage
+.DS_Store
+.ropeproject
+*.py[co]
+
+# https://github.com/github/gitignore/raw/master/Python.gitignore
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+conf_local.py
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+
+.idea
+
+# Arquivos do PyDev
+.pydevproject

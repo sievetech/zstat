@@ -5,4 +5,4 @@ from zstat import process_metric_key
 
 
 def main():
-    print process_metric_key(sys.argv[1:])
+    print process_metric_key(*sys.argv[1:])

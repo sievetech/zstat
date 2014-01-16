@@ -23,4 +23,4 @@ def process_metric_key(key, *args):
     _module = find_metric_module(key)
     if not _module:
         return UNSUPPORTED
-    return _module.process(key, args)
+    return _module.process(key, *args)

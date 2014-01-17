@@ -6,10 +6,6 @@ from zstat.modules import mysql
 
 class MysqlModuleTest(unittest.TestCase):
 
-    def test_mysql_connections(self):
-        #mysql.process("mysql.connections")
-        self.fail()
-
     def test_get_mysql_known_variable(self):
         cursor_mock = mock.Mock()
         with mock.patch.object(mysql, "_get_cursor", return_value=cursor_mock):

@@ -25,13 +25,9 @@ def _get_mysql_variable(variable_name):
     return ""
 
 
-def process(key, *args):
-    function_name = key.replace(".", "_")
-    available_functioons = sys.modules[__name__].__dict__
-    if function_name not in available_functioons:
-        return None
-    return available_functioons[function_name](*args)
-
-
 def mysql_connections(*args):
     return _get_mysql_variable("Threads_connected")
+
+
+def mysql_locks(*args):
+    pass

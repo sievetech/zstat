@@ -39,5 +39,19 @@ def mysql_rowsupdated(*args):
 def mysql_slowqueries(*args):
     return _get_mysql_status_value("Slow_queries")
 
+
 def mysql_freemem(*args):
-    return int(_get_mysql_status_value("Innodb_page_size")) * int(_get_mysql_status_value("Innodb_buffer_pool_pages_free"))
+    return int(_get_mysql_status_value("Innodb_page_size")) * int(_get_mysql_status_value("Uptime"))
+
+
+def mysql_updatepersecond(*args):
+    return int(_get_mysql_status_value("Innodb_rows_updated")) / int(_get_mysql_status_value("Uptime"))
+
+
+def mysql_insertpersecond(*args):
+    return int(_get_mysql_status_value("Innodb_rows_inserted")) / int(_get_mysql_status_value("Uptime"))
+
+
+def mysql_deletepersecond(*args):
+    return int(_get_mysql_status_value("Innodb_rows_deleted")) / int(_get_mysql_status_value("Uptime"))
+

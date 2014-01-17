@@ -30,4 +30,15 @@ def mysql_connections(*args):
 
 
 def mysql_locks(*args):
-    pass
+    return _get_mysql_variable("Innodb_row_lock_current_waits")
+
+
+def mysql_rowsupdated(*args):
+    return _get_mysql_variable("Innodb_rows_updated")
+
+
+def mysql_slowqueries(*args):
+    return _get_mysql_variable("Slow_queries")
+
+def mysql_freemem(*args):
+    return int(_get_mysql_variable("Innodb_page_size")) * int(_get_mysql_variable("Innodb_buffer_pool_pages_free"))

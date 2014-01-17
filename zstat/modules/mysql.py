@@ -7,7 +7,7 @@ from zstat.settings import config
 mysql_config_opts = config.get("mysql", {})
 USER = mysql_config_opts.get("user", "root")
 PWD = mysql_config_opts.get("pwd", "")
-HOST = mysql_config_opts.get("host", "127.0.0.1")
+HOST = mysql_config_opts.get("host", "localhost")
 
 
 def _get_cursor():

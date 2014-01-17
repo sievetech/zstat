@@ -1,5 +1,5 @@
 # coding=utf-8
-import sys
+from contextlib import contextmanager
 import MySQLdb
 from zstat.settings import config
 
@@ -9,20 +9,19 @@ USER = mysql_config_opts.get("user", "root")
 PWD = mysql_config_opts.get("pwd", "")
 HOST = mysql_config_opts.get("host", "localhost")
 
-
+@contextmanager
 def _get_cursor():
-    connect = MySQLdb.connect(host=HOST, port=3306, user=USER, passwd=PWD)
-    cursor = connect.cursor()
-    return cursor
+    with MySQLdb.connect(host=HOST, port=3306, user=USER, passwd=PWD) as cursor:
+        yield cursor
 
 
 def _get_mysql_variable(variable_name):
-    c = _get_cursor()
-    c.execute("SHOW STATUS WHERE `variable_name` = %s", (variable_name,))
-    data = c.fetchall()
-    if data:
-        return data[0][1]
-    return ""
+    with _get_cursor() as c:
+        c.execute("SHOW STATUS WHERE `variable_name` = %s", (variable_name,))
+        data = c.fetchall()
+        if data:
+            return data[0][1]
+        return ""
 
 
 def mysql_connections(*args):

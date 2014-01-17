@@ -15,7 +15,7 @@ def _get_cursor():
         yield cursor
 
 
-def _get_mysql_variable(variable_name):
+def _get_mysql_status_value(variable_name):
     with _get_cursor() as c:
         c.execute("SHOW STATUS WHERE `variable_name` = %s", (variable_name,))
         data = c.fetchall()
@@ -25,19 +25,19 @@ def _get_mysql_variable(variable_name):
 
 
 def mysql_connections(*args):
-    return _get_mysql_variable("Threads_connected")
+    return _get_mysql_status_value("Threads_connected")
 
 
 def mysql_locks(*args):
-    return _get_mysql_variable("Innodb_row_lock_current_waits")
+    return _get_mysql_status_value("Innodb_row_lock_current_waits")
 
 
 def mysql_rowsupdated(*args):
-    return _get_mysql_variable("Innodb_rows_updated")
+    return _get_mysql_status_value("Innodb_rows_updated")
 
 
 def mysql_slowqueries(*args):
-    return _get_mysql_variable("Slow_queries")
+    return _get_mysql_status_value("Slow_queries")
 
 def mysql_freemem(*args):
-    return int(_get_mysql_variable("Innodb_page_size")) * int(_get_mysql_variable("Innodb_buffer_pool_pages_free"))
+    return int(_get_mysql_status_value("Innodb_page_size")) * int(_get_mysql_status_value("Innodb_buffer_pool_pages_free"))

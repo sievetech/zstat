@@ -18,7 +18,7 @@ def _get_cursor():
 
 def _get_mysql_variable(variable_name):
     c = _get_cursor()
-    c.execute("SHOW STATUS WHERE `variable_name` = '{}'".format(variable_name))
+    c.execute("SHOW STATUS WHERE `variable_name` = %s", (variable_name,))
     data = c.fetchall()
     if data:
         return data[0][1]

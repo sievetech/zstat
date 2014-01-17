@@ -1,7 +1,9 @@
 zstat
 =====
 
-Set of metric collectors to be sent to the Zabbix monitoring system
+Set of metric collectors to be sent to the Zabbix_ monitoring system
+
+.. _Zabbix: http://www.zabbix.com/download.php
 
 
 How to Use

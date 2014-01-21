@@ -24,7 +24,20 @@ def _get_mysql_status_value(variable_name):
         return ""
 
 
+def _query_result(query, *args):
+    with _get_cursor() as c:
+        c.execute(query, args)
+        data = c.fetchall()
+        if data:
+            return data[0][0]
+        return ""
+
+
 def mysql_connections(*args):
+    if args:
+        place_holders = ",".join((" %s" * len(args)).split())
+        query = "select count(1) from information_schema.processlist where user in ({})".format(place_holders)
+        return _query_result(query, *args)
     return _get_mysql_status_value("Threads_connected")
 
 

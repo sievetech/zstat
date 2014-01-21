@@ -19,3 +19,8 @@ def rabbitmq_totalmsg(*args):
     if args and len(args) == 2:  # Host and queue-name
         return client.get_queue(args[0], args[1])['messages']
     return client.get_overview()['queue_totals']['messages']
+
+
+def rabbitmq_redelivery(*args):
+    client = _get_client()
+    return client.get_overview()['message_stats']['redeliver_details']['rate']

@@ -35,3 +35,17 @@ class MysqlModuleTest(unittest.TestCase):
         self.client_mock.get_queue.return_value = {"messages": 42}
         value = rabbitmq.rabbitmq_totalmsg("/", "extractor")
         self.assertEqual(42, value)
+
+    def test_rabbitmq_redelivery_rate(self):
+        self.client_mock.get_overview.return_value = {u'queue_totals': {u'messages': 21294,
+                                                                        u'messages_ready': 20436,
+                                                                        u'messages_unacknowledged': 858
+                                                                        },
+                                                      u'message_stats': {
+                                                          u'redeliver_details': {
+                                                              u'rate': 0.34
+                                                          }
+                                                      }
+                                                      }
+        value = rabbitmq.rabbitmq_redelivery()
+        self.assertEqual(0.34, value)

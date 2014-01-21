@@ -12,7 +12,7 @@ setup(
                 'zstat = zstat.main:main',
             ]
     },
-    install_requires=["MySQL-python==1.2.5"],
+    install_requires=["MySQL-python==1.2.5", "pyrabbit==1.0.1"],
     url='https://github.com/sievetech/zstat',
     license='3-BSD',
     author='Sievetech',

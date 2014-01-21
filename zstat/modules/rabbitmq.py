@@ -24,3 +24,21 @@ def rabbitmq_totalmsg(*args):
 def rabbitmq_redelivery(*args):
     client = _get_client()
     return client.get_overview()['message_stats']['redeliver_details']['rate']
+
+
+def rabbitmq_node_usedmempercent(*args):
+    client = _get_client()
+    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    return "{:2.2f}".format(float(node_info['mem_used']) / float(node_info['mem_limit']))
+
+
+def rabbitmq_node_usedfdpercent(*args):
+    client = _get_client()
+    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    return "{:2.2f}".format(float(node_info['fd_used']) / float(node_info['fd_total']))
+
+
+def rabbitmq_node_usedndpercent(*args):
+    client = _get_client()
+    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    return "{:2.2f}".format(float(node_info['sockets_used']) / float(node_info['sockets_total']))

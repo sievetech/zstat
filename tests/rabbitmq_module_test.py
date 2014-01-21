@@ -50,14 +50,19 @@ class MysqlModuleTest(unittest.TestCase):
         value = rabbitmq.rabbitmq_redelivery()
         self.assertEqual(0.34, value)
 
-    def test_rabbitmq_usedmempercent(self):
+    def test_rabbitmq_usedmempercent_with_node_name(self):
         self.client_mock.http.do_call.return_value = {"mem_used": 3, "mem_limit": 10}
         value = rabbitmq.rabbitmq_node_usedmempercent("rabbitmq@my-node")
         self.assertEqual([mock.call("nodes/rabbitmq@my-node", "GET")], self.client_mock.http.do_call.call_args_list)
         self.assertEqual("0.30", value)
 
+    def test_rabbitmq_usedmempercent_without_node_name(self):
+        self.client_mock.http.do_call.return_value = [{"mem_used": 4, "mem_limit": 10}]
+        value = rabbitmq.rabbitmq_node_usedmempercent()
+        self.assertEqual([mock.call("nodes/", "GET")], self.client_mock.http.do_call.call_args_list)
+        self.assertEqual("0.40", value)
 
-    def test_rabbitmq_usedfdpercent(self):
+    def test_rabbitmq_usedfdpercent_with_node_name(self):
         """
         Used file descriptors
         """
@@ -66,8 +71,16 @@ class MysqlModuleTest(unittest.TestCase):
         self.assertEqual([mock.call("nodes/rabbitmq@my-node", "GET")], self.client_mock.http.do_call.call_args_list)
         self.assertEqual("0.50", value)
 
+    def test_rabbitmq_usedfdpercent_without_node_name(self):
+        """
+        Used file descriptors
+        """
+        self.client_mock.http.do_call.return_value = [{"fd_used": 6, "fd_total": 10}]
+        value = rabbitmq.rabbitmq_node_usedfdpercent()
+        self.assertEqual([mock.call("nodes/", "GET")], self.client_mock.http.do_call.call_args_list)
+        self.assertEqual("0.60", value)
 
-    def test_rabbitmq_usedndpercent(self):
+    def test_rabbitmq_usedndpercent_with_node_name(self):
         """
         Used network descriptors
         """
@@ -75,4 +88,13 @@ class MysqlModuleTest(unittest.TestCase):
         value = rabbitmq.rabbitmq_node_usedndpercent("rabbitmq@my-node")
         self.assertEqual([mock.call("nodes/rabbitmq@my-node", "GET")], self.client_mock.http.do_call.call_args_list)
         self.assertEqual("0.80", value)
+
+    def test_rabbitmq_usedndpercent_without_node_name(self):
+        """
+        Used network descriptors
+        """
+        self.client_mock.http.do_call.return_value = [{"sockets_used": 9, "sockets_total": 10}]
+        value = rabbitmq.rabbitmq_node_usedndpercent()
+        self.assertEqual([mock.call("nodes/", "GET")], self.client_mock.http.do_call.call_args_list)
+        self.assertEqual("0.90", value)
 

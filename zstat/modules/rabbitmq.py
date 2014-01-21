@@ -26,19 +26,25 @@ def rabbitmq_redelivery(*args):
     return client.get_overview()['message_stats']['redeliver_details']['rate']
 
 
-def rabbitmq_node_usedmempercent(*args):
+def _get_node_info(node_name):
     client = _get_client()
-    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    node_info = client.http.do_call("nodes/{}".format(node_name or ""), "GET")
+    return node_info if node_name else node_info[0]
+
+
+def rabbitmq_node_usedmempercent(*args):
+    node_name = args[0] if args else None
+    node_info = _get_node_info(node_name)
     return "{:2.2f}".format(float(node_info['mem_used']) / float(node_info['mem_limit']))
 
 
 def rabbitmq_node_usedfdpercent(*args):
-    client = _get_client()
-    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    node_name = args[0] if args else None
+    node_info = _get_node_info(node_name)
     return "{:2.2f}".format(float(node_info['fd_used']) / float(node_info['fd_total']))
 
 
 def rabbitmq_node_usedndpercent(*args):
-    client = _get_client()
-    node_info = client.http.do_call("nodes/{}".format(args[0]), "GET")
+    node_name = args[0] if args else None
+    node_info = _get_node_info(node_name)
     return "{:2.2f}".format(float(node_info['sockets_used']) / float(node_info['sockets_total']))

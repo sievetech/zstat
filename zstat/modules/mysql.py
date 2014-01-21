@@ -55,3 +55,8 @@ def mysql_insertpersecond(*args):
 def mysql_deletepersecond(*args):
     return int(_get_mysql_status_value("Innodb_rows_deleted")) / int(_get_mysql_status_value("Uptime"))
 
+
+def mysql_status(*args):
+    if args:
+        return _get_mysql_status_value(args[0])
+    return ""

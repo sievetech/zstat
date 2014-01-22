@@ -39,12 +39,18 @@ def rabbitmq_node_usedmempercent(*args):
 
 
 def rabbitmq_node_usedfdpercent(*args):
+    """
+    Usage of file descritpors (%)
+    """
     node_name = args[0] if args else None
     node_info = _get_node_info(node_name)
     return "{:2.2f}".format(float(node_info['fd_used']) / float(node_info['fd_total']))
 
 
 def rabbitmq_node_usedndpercent(*args):
+    """
+    Usage of network descritpors (%)
+    """
     node_name = args[0] if args else None
     node_info = _get_node_info(node_name)
     return "{:2.2f}".format(float(node_info['sockets_used']) / float(node_info['sockets_total']))

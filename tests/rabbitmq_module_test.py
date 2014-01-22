@@ -5,7 +5,7 @@ import mock
 from zstat.modules import rabbitmq
 
 
-class MysqlModuleTest(unittest.TestCase):
+class RabbitMQModuleTest(unittest.TestCase):
 
     def setUp(self):
         self._get_client_patch = mock.patch.object(rabbitmq, '_get_client')

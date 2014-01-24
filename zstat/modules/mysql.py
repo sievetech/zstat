@@ -54,7 +54,7 @@ def mysql_slowqueries(*args):
 
 
 def mysql_freemem(*args):
-    return int(_get_mysql_status_value("Innodb_page_size")) * int(_get_mysql_status_value("Uptime"))
+    return int(_get_mysql_status_value("Innodb_page_size")) * int(_get_mysql_status_value("Innodb_buffer_pool_pages_free"))
 
 
 def mysql_updatepersecond(*args):

@@ -24,6 +24,16 @@ def _get_mysql_status_value(variable_name):
         return ""
 
 
+def _get_mysql_slave_status_value(variable_name):
+    with _get_cursor() as c:
+        c.execute("SHOW SLAVE STATUS")
+        column_names = [column[0].lower() for column in c.description]
+        data = c.fetchall()
+        if data and variable_name.lower() in column_names:
+            return data[0][column_names.index(variable_name.lower())]
+        return ""
+
+
 def _query_result(query, *args):
     with _get_cursor() as c:
         c.execute(query, args)
@@ -67,6 +77,10 @@ def mysql_insertpersecond(*args):
 
 def mysql_deletepersecond(*args):
     return int(_get_mysql_status_value("Innodb_rows_deleted")) / int(_get_mysql_status_value("Uptime"))
+
+
+def mysql_slavestatus(column_name):
+    return _get_mysql_slave_status_value(column_name)
 
 
 def mysql_status(*args):

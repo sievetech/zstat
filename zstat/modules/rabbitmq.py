@@ -1,6 +1,7 @@
 # coding=utf-8
 from pyrabbit.api import Client
 from zstat.settings import config
+import json
 
 rabbit_options = config.get("rabbitmq", {})
 
@@ -12,6 +13,22 @@ passwd = rabbit_options.get("pwd", "guest")
 
 def _get_client():
     return Client("{}:{}".format(host, port), user, passwd)
+
+
+def rabbitmq_queue_discovery(*args):
+    _data = {"data":[]}
+    client = _get_client()
+    vhosts = client.get_all_vhosts()
+    for vhost in vhosts:
+        queues = client.get_queues(vhost["name"])
+        for q in queues:
+            _data["data"].append(
+                {"{#QUEUENAME}": q["name"],
+                 "{#VHOST}": q["vhost"]
+                 }
+            )
+    return json.dumps(_data)
+
 
 
 def rabbitmq_totalmsg(*args):

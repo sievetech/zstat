@@ -16,17 +16,20 @@ def _get_client():
 
 
 def rabbitmq_queue_discovery(*args):
-    _data = {"data":[]}
+    _data = {"data": []}
     client = _get_client()
     vhosts = client.get_all_vhosts()
     for vhost in vhosts:
-        queues = client.get_queues(vhost["name"])
-        for q in queues:
-            _data["data"].append(
-                {"{#QUEUENAME}": q["name"],
-                 "{#VHOST}": q["vhost"]
-                 }
-            )
+        try:
+            queues = client.get_queues(vhost["name"])
+            for q in queues:
+                _data["data"].append(
+                    {"{#QUEUENAME}": q["name"],
+                     "{#VHOST}": q["vhost"]
+                     }
+                )
+        except:
+            pass
     return json.dumps(_data)
 
 
